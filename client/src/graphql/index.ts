@@ -4,12 +4,12 @@ import {
   NormalizedCacheObject,
   gql
 } from '@apollo/client';
-import { cache } from './cache';
 
 import typeDefs from './schema';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-  cache: cache,
+  uri: 'http://localhost:8080/graphql',
+  cache: new InMemoryCache(),
   typeDefs
 });
 

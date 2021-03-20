@@ -1,22 +1,42 @@
 {
-  "name": "castronauts-server-complete",
+  "name": "graphql-server",
   "version": "1.0.0",
-  "description": "back-end demo app for Apollo's lift-off course",
-  "main": "src/index.js",
+  "description": "graphql server for the projects time tracking project",
   "scripts": {
-    "start": "nodemon src/index"
+    "start": "nodemon -V"
   },
   "dependencies": {
     "apollo-datasource-rest": "0.9.6",
     "apollo-server": "^2.19.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
-    "graphql": "^15.5.0"
+    "graphql": "^15.5.0",
+    "nanoid": "^3.1.22"
   },
   "devDependencies": {
+    "@types/node": "^14.14.35",
     "dotenv": "^8.2.0",
-    "nodemon": "^2.0.4"
+    "eslint": "^7.22.0",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "ts-node -r ./src",
+    "ext": "ts"
+  },
+  "type": "module",
   "author": "Raphael Terrier @R4ph-t",
   "license": "MIT",
   "private": true

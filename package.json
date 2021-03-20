@@ -1,0 +1,30 @@
+{
+  "name": "graphql-projects-timetracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "server": "npm start --prefix server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "client:cache": "npm start --prefix client-cache",
+    "dev:cache": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rodrigojmr/graphql-projects-timetracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rodrigojmr/graphql-projects-timetracker/issues"
+  },
+  "homepage": "https://github.com/rodrigojmr/graphql-projects-timetracker#readme",
+  "devDependencies": {
+    "concurrently": "^6.0.0"
+  }
+}

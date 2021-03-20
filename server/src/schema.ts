@@ -13,16 +13,16 @@ const schema = buildSchema(`
   }
 
   type Query {
-    getProjects: [Project!]
-  }
-    type Query {
-    getProject: Project
+    projects: [Project!]
+    project(id: ID!): Project
   }
 
   input ProjectInput {
+    id: ID
     name: String!
     description: String!
   }
+
   input TimeInput {
     description: String!
     amount: Int!
@@ -30,6 +30,8 @@ const schema = buildSchema(`
 
   type Mutation {
     createProject(input: ProjectInput): Project
+    deleteProject(id: ID): Project
+    editProject(input: ProjectInput): Project
   }
 `);
 
