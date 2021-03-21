@@ -54,7 +54,7 @@ const resolvers = {
       time => time.description === timeInput.description
     );
     if (matchingTime) {
-      matchingTime.amount = timeInput.amount;
+      matchingTime.amount += timeInput.amount;
     } else {
       timeArrCopy.push({ description, amount });
     }
@@ -63,6 +63,7 @@ const resolvers = {
   },
   deleteTime: ({ id, key }: { id: string; key: number }) => {
     const project = projectArray.find(project => project.id === id);
+
     if (project.time[key]) {
       project.time.splice(key, 1);
     }

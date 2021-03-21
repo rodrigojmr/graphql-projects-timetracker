@@ -1,13 +1,6 @@
-import {
-  CheckIcon,
-  CloseIcon,
-  DeleteIcon,
-  EditIcon,
-  ViewIcon
-} from '@chakra-ui/icons';
+import { DeleteIcon } from '@chakra-ui/icons';
 import {
   IconButton,
-  Input,
   Table,
   TableCaption,
   Tbody,
@@ -21,7 +14,7 @@ import {
   useDeleteTimeMutation,
   useGetProjectsQuery
 } from '../../generated/graphql';
-import { GET_PROJECT, GET_PROJECTS } from '../../graphql/query';
+import { GET_PROJECT } from '../../graphql/query';
 
 interface Props {
   project?: Project | null;
@@ -42,13 +35,13 @@ const TimeTable = ({ project }: Props) => {
       // Remove deleted project from list of projects
       cache.writeQuery({
         query: GET_PROJECT,
-        data: { project: getProject?.project }
+        data: { project: data?.deleteTime }
       });
     }
   });
 
   const onDelete = (key: number) => {
-    if (project?.id && key) {
+    if (project?.id) {
       deleteTime({ variables: { id: project.id, key } });
     }
   };
@@ -85,9 +78,9 @@ const TimeTable = ({ project }: Props) => {
         ) : (
           <>
             <Tr minH="4rem" position="relative">
-              <Td width="100%">No time inserted.</Td>
-              <Td width="100%"></Td>
-              <Td width="100%"></Td>
+              <Td>No time inserted.</Td>
+              <Td></Td>
+              <Td></Td>
             </Tr>
           </>
         )}

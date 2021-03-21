@@ -192,18 +192,14 @@ function ProjectsTable() {
             currentDescription: item.description
           })
         }
-      >
-        Edit
-      </IconButton>
+      />
       <IconButton
         backgroundColor="gray.200"
         _hover={{ backgroundColor: 'red.600', color: 'gray.200' }}
         aria-label="Delete Project"
         icon={<DeleteIcon />}
         onClick={() => onDelete(item.id)}
-      >
-        Edit
-      </IconButton>
+      />
     </>
   );
 
@@ -220,19 +216,14 @@ function ProjectsTable() {
             newProjectDescription: projectFields.description
           })
         }
-      >
-        Save
-      </IconButton>
-
+      />
       <IconButton
         backgroundColor="gray.200"
         _hover={{ backgroundColor: 'red.500', color: 'gray.200' }}
         icon={<CloseIcon />}
         aria-label="Cancel editing project"
         onClick={onCancel}
-      >
-        Cancel
-      </IconButton>
+      />
     </>
   );
 
@@ -321,7 +312,7 @@ function ProjectsTable() {
         ) : (
           <>
             <Tr minH="4rem" position="relative">
-              <Td></Td>
+              <Td>No projects added.</Td>
               <Td></Td>
               <Td></Td>
               <Td></Td>

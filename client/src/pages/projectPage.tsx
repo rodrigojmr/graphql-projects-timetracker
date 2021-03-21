@@ -14,7 +14,7 @@ import {
   NumberInputStepper
 } from '@chakra-ui/react';
 import { Skeleton, SkeletonText } from '@chakra-ui/skeleton';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useParams } from 'react-router-dom';
 import TimeTable from '../components/table/timeTable';
@@ -26,12 +26,14 @@ interface Props {
 }
 
 const ProjectPage: React.FC<Props> = ({ project }) => {
+  // Fetch project by page ID
   const { id } = useParams<{ id: string }>();
-  const { handleSubmit, errors, register, formState } = useForm();
-
-  const { data, loading, error, refetch } = useGetProjectQuery({
+  const { data, loading } = useGetProjectQuery({
     variables: { id }
   });
+
+  const { handleSubmit, errors, register } = useForm();
+
   const [addTime] = useAddTimeMutation({
     refetchQueries: [{ query: GET_PROJECT, variables: { id } }]
   });
