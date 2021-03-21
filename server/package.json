@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "graphql server for the projects time tracking project",
   "scripts": {
-    "start": "nodemon -V"
+    "start": "nodemon"
   },
   "dependencies": {
-    "apollo-datasource-rest": "0.9.6",
-    "apollo-server": "^2.19.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
