@@ -1924,7 +1924,7 @@
     "lodash" "~4.17.20"
     "tslib" "~2.1.0"
 
-"@graphql-codegen/typescript-operations@^1.17.15":
+"@graphql-codegen/typescript-operations@1.17.15":
   "integrity" "sha512-HStWj3mUe+0ir2J0jqgjegrvcO1DIe2gzsoBBo9RHIYwyaxedUivxXvWY9XBfKpHv6sLa/ST1iYGeedrJELPtw=="
   "resolved" "https://registry.npmjs.org/@graphql-codegen/typescript-operations/-/typescript-operations-1.17.15.tgz"
   "version" "1.17.15"
@@ -1935,7 +1935,7 @@
     "auto-bind" "~4.0.0"
     "tslib" "~2.1.0"
 
-"@graphql-codegen/typescript-react-apollo@^2.2.3":
+"@graphql-codegen/typescript-react-apollo@2.2.3":
   "integrity" "sha512-6OjDJQfVwMDEqQkgoQ3Uixq3KRb0H+lSwcWWFmdWErYhe5k2F8niBUJ32FEwu0KIqqx3PhzdwmLcXpBTC5gtyg=="
   "resolved" "https://registry.npmjs.org/@graphql-codegen/typescript-react-apollo/-/typescript-react-apollo-2.2.3.tgz"
   "version" "2.2.3"
@@ -1944,6 +1944,18 @@
     "@graphql-codegen/visitor-plugin-common" "^1.19.1"
     "auto-bind" "~4.0.0"
     "change-case-all" "1.0.12"
+    "tslib" "~2.1.0"
+
+"@graphql-codegen/typescript-resolvers@^1.19.0":
+  "integrity" "sha512-37dkn4f3xcvsMQVatpiL2/r/qpjOyu/HCiJhsZuxLpQaBk7Z+z9nogawt4zxk7ZODpViN1zNO2hS7lLXEGmbZw=="
+  "resolved" "https://registry.npmjs.org/@graphql-codegen/typescript-resolvers/-/typescript-resolvers-1.19.0.tgz"
+  "version" "1.19.0"
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^1.18.3"
+    "@graphql-codegen/typescript" "^1.21.1"
+    "@graphql-codegen/visitor-plugin-common" "^1.19.0"
+    "@graphql-tools/utils" "^7.0.0"
+    "auto-bind" "~4.0.0"
     "tslib" "~2.1.0"
 
 "@graphql-codegen/typescript@^1.21.1", "@graphql-codegen/typescript@1.21.1":

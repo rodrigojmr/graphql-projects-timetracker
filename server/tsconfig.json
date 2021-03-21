@@ -5,8 +5,10 @@
     "outDir": "dist",
     "sourceMap": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", ".vscode"]
+  "exclude": ["node_modules", ".vscode"],
+
 }

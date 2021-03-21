@@ -1,9 +1,14 @@
+import {
+  Project as IProject,
+  TimeInput
+} from './../../client/src/generated/graphql';
 import { nanoid } from 'nanoid';
 
 class Project {
   id: string;
   name: string;
   description: string;
+  time?: { description: string; amount: number }[];
 
   constructor(id, { name, description }) {
     this.id = id;
@@ -12,7 +17,7 @@ class Project {
   }
 }
 
-const projectArray = [];
+const projectArray: IProject[] = [];
 
 const resolvers = {
   projects: () => projectArray,
@@ -27,7 +32,7 @@ const resolvers = {
 
     return newProject;
   },
-  editProject: ({ input }) => {
+  editProject: ({ input }: { input: IProject }) => {
     const { id, name, description } = input;
     const project = projectArray.find(project => project.id === id);
     project.name = name;
@@ -38,8 +43,30 @@ const resolvers = {
     const projectToDelete = projectArray.find(project => project.id === id);
     const index = projectArray.findIndex(project => project.id === id);
     projectArray.splice(index, 1);
-
     return projectToDelete;
+  },
+  addTime: ({ id, timeInput }: { id: string; timeInput: TimeInput }) => {
+    const { description, amount } = timeInput;
+    const project = projectArray.find(project => project.id === id);
+
+    const timeArrCopy = project.time ? project.time : [];
+    const matchingTime = timeArrCopy.find(
+      time => time.description === timeInput.description
+    );
+    if (matchingTime) {
+      matchingTime.amount = timeInput.amount;
+    } else {
+      timeArrCopy.push({ description, amount });
+    }
+    project.time = timeArrCopy;
+    return project;
+  },
+  deleteTime: ({ id, key }: { id: string; key: number }) => {
+    const project = projectArray.find(project => project.id === id);
+    if (project.time[key]) {
+      project.time.splice(key, 1);
+    }
+    return project;
   }
 };
 

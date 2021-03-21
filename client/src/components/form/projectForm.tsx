@@ -1,7 +1,13 @@
-import { useMutation, useQuery } from '@apollo/client';
-import { FormControl } from '@chakra-ui/form-control';
-import { FormLabel, Input, FormErrorMessage, Button } from '@chakra-ui/react';
 import React from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  FormLabel,
+  Input,
+  FormErrorMessage,
+  Button,
+  Textarea
+} from '@chakra-ui/react';
+import { FormControl } from '@chakra-ui/form-control';
 import { useForm } from 'react-hook-form';
 import { useCreateProjectMutation } from '../../generated/graphql';
 import { ADD_PROJECT, GET_PROJECTS } from '../../graphql/query';
@@ -51,6 +57,7 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
         <Input
           required
           borderColor="gray.300"
+          _hover={{ borderColor: 'gray.600' }}
           name="name"
           placeholder="name"
           ref={register()}
@@ -61,8 +68,9 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
       </FormControl>
       <FormControl isInvalid={errors.name}>
         <FormLabel htmlFor="description">Description</FormLabel>
-        <Input
+        <Textarea
           required
+          _hover={{ borderColor: 'gray.600' }}
           borderColor="gray.300"
           name="description"
           placeholder="description"
@@ -72,7 +80,9 @@ const ProjectForm: React.FC<ProjectFormProps> = () => {
           {errors.name && errors.name.message}
         </FormErrorMessage>
       </FormControl>
-      <Button type="submit">Submit</Button>
+      <Button colorScheme="blue" color="gray.700" type="submit">
+        Submit
+      </Button>
     </form>
   );
 };

@@ -58,18 +58,30 @@ export const DELETE_PROJECT = gql`
   }
 `;
 
-// const data = client.readQuery({
-//   query: gql`
-//     query FetchProducts {
-//       project {
-//         id
-//         name
-//         description
-//         time {
-//           description
-//           amount
-//         }
-//       }
-//     }
-//   `
-// });
+export const ADD_TIME = gql`
+  mutation AddTime($id: ID!, $timeInput: TimeInput!) {
+    addTime(id: $id, timeInput: $timeInput) {
+      id
+      name
+      description
+      time {
+        description
+        amount
+      }
+    }
+  }
+`;
+
+export const DELETE_TIME = gql`
+  mutation DeleteTime($id: ID!, $key: Int!) {
+    deleteTime(id: $id, key: $key) {
+      id
+      name
+      description
+      time {
+        description
+        amount
+      }
+    }
+  }
+`;

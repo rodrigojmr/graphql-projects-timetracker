@@ -30,8 +30,10 @@ const schema = buildSchema(`
 
   type Mutation {
     createProject(input: ProjectInput): Project
-    deleteProject(id: ID): Project
+    deleteProject(id: ID!): Project
     editProject(input: ProjectInput): Project
+    addTime(id: ID!, timeInput: TimeInput!): Project
+    deleteTime(id: ID!, key: Int!): Project
   }
 `);
 

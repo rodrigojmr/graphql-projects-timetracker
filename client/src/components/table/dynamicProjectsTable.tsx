@@ -6,8 +6,10 @@ import {
   ViewIcon
 } from '@chakra-ui/icons';
 import {
+  HStack,
   IconButton,
   Input,
+  Skeleton,
   Table,
   TableCaption,
   Tbody,
@@ -19,30 +21,73 @@ import {
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  Project as IProject,
   useDeleteProjectMutation,
   useEditProjectMutation,
   useGetProjectsQuery
 } from '../../generated/graphql';
 import { GET_PROJECTS } from '../../graphql/query';
 
-interface State {
-  name: string;
-  description: string;
-}
+// interface State {
+//   name: string;
+//   description: string;
+// }
 
-enum FieldType {
-  Name = 'name',
-  Description = 'description'
-}
+// enum FieldType {
+//   Name = 'name',
+//   Description = 'description'
+// }
 
-type Action = {
-  field: FieldType;
-  payload: string;
-};
+// type Action = {
+//   field: FieldType;
+//   payload: string;
+// };
+
+// useReducer, probably overkill for this use case
+// const initialState: State = {
+//   name: '',
+//   description: ''
+// };
+
+// const reducer = (state: State, action: Action) => {
+//   const { field, payload } = action;
+//   switch (field) {
+//     case FieldType.Name:
+//       return {
+//         ...state,
+//         name: payload
+//       };
+//     case FieldType.Description:
+//       return {
+//         ...state,
+//         description: payload
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+// const [state, dispatch] = useReducer(reducer, initialState);
 
 function ProjectsTable() {
   const { data, loading, error } = useGetProjectsQuery();
 
+  // Initial state to set edit mode
+  const [inEditMode, setInEditMode] = useState<{
+    status: boolean;
+    rowKey: null | string;
+  }>({
+    status: false,
+    rowKey: null
+  });
+
+  // TODO Separate rows to prevent re-rendering the entire table again
+  const [projectFields, setProjectFields] = useState({
+    name: '',
+    description: ''
+  });
+
+  // GraphQL Queries
   const [deleteProject] = useDeleteProjectMutation({
     update(cache, { data }) {
       // Get existing projects from cache
@@ -63,52 +108,10 @@ function ProjectsTable() {
     }
   });
 
-  // To prevent bugs with modifying the cache or making inconsistent changes compared to what is done with the resolver, I refetch from the server again
-  // Con: sometimes the project isn't edited properly as the server refetch happens after the change to text
-  // TODO Change cache?
+  // To prevent bugs and inconsistencies in modifying the cache in either name and/or description changes, I refetch from the server again
+  // Con: sometimes the frontend doesn't update properly ?
   const [editProject] = useEditProjectMutation({
     refetchQueries: [{ query: GET_PROJECTS }]
-  });
-
-  const [inEditMode, setInEditMode] = useState<{
-    status: boolean;
-    rowKey: null | string;
-  }>({
-    status: false,
-    rowKey: null
-  });
-
-  // useReducer, probably overkill for this use case
-
-  // const initialState: State = {
-  //   name: '',
-  //   description: ''
-  // };
-
-  // const reducer = (state: State, action: Action) => {
-  //   const { field, payload } = action;
-  //   switch (field) {
-  //     case FieldType.Name:
-  //       return {
-  //         ...state,
-  //         name: payload
-  //       };
-  //     case FieldType.Description:
-  //       return {
-  //         ...state,
-  //         description: payload
-  //       };
-  //     default:
-  //       return state;
-  //   }
-  // };
-
-  // const [state, dispatch] = useReducer(reducer, initialState);
-
-  // TODO Separate rows to prevent re-rendering the entire table again
-  const [projectFields, setProjectFields] = useState({
-    name: '',
-    description: ''
   });
 
   const onEdit = ({
@@ -130,6 +133,7 @@ function ProjectsTable() {
     });
   };
 
+  // Button onClick methods
   const onSave = ({
     id,
     newProjectName,
@@ -139,15 +143,21 @@ function ProjectsTable() {
     newProjectName: string;
     newProjectDescription: string;
   }) => {
+    // Call edit project mutation
     editProject({
       variables: {
         input: { id, name: newProjectName, description: newProjectDescription }
       }
     });
+    // reset the inEditMode state value
     setInEditMode({
       status: false,
       rowKey: null
     });
+  };
+
+  const onDelete = (id: string) => {
+    deleteProject({ variables: { id } });
   };
 
   const onCancel = () => {
@@ -160,8 +170,83 @@ function ProjectsTable() {
     setProjectFields({ name: '', description: '' });
   };
 
-  const onDelete = (id: string) => {
-    deleteProject({ variables: { id } });
+  const defaultButtonsNode = (item: IProject) => (
+    <>
+      <Link to={`/project/${item.id}`}>
+        <IconButton
+          _hover={{ backgroundColor: 'blue.600', color: 'gray.200' }}
+          backgroundColor="gray.200"
+          aria-label="View project"
+          icon={<ViewIcon />}
+        />
+      </Link>
+      <IconButton
+        backgroundColor="gray.200"
+        aria-label="Edit Project"
+        _hover={{ backgroundColor: 'green.600', color: 'gray.200' }}
+        icon={<EditIcon />}
+        onClick={() =>
+          onEdit({
+            id: item.id,
+            currentName: item.name,
+            currentDescription: item.description
+          })
+        }
+      >
+        Edit
+      </IconButton>
+      <IconButton
+        backgroundColor="gray.200"
+        _hover={{ backgroundColor: 'red.600', color: 'gray.200' }}
+        aria-label="Delete Project"
+        icon={<DeleteIcon />}
+        onClick={() => onDelete(item.id)}
+      >
+        Edit
+      </IconButton>
+    </>
+  );
+
+  const editModeButtonsNode = (item: IProject) => (
+    <>
+      <IconButton
+        backgroundColor="gray.200"
+        aria-label="Save Project"
+        icon={<CheckIcon />}
+        onClick={() =>
+          onSave({
+            id: item.id,
+            newProjectName: projectFields.name,
+            newProjectDescription: projectFields.description
+          })
+        }
+      >
+        Save
+      </IconButton>
+
+      <IconButton
+        backgroundColor="gray.200"
+        _hover={{ backgroundColor: 'red.500', color: 'gray.200' }}
+        icon={<CloseIcon />}
+        aria-label="Cancel editing project"
+        onClick={onCancel}
+      >
+        Cancel
+      </IconButton>
+    </>
+  );
+
+  const projectTime = (project: IProject): number => {
+    if (!project.time) return 0;
+
+    const totalTime = project?.time?.reduce((acc, cur) => {
+      if (cur?.amount) {
+        return acc + cur?.amount;
+      }
+      return acc;
+    }, 0);
+
+    return totalTime;
   };
 
   return (
@@ -182,12 +267,11 @@ function ProjectsTable() {
       <Tbody>
         {data && data.projects && data.projects.length > 0 ? (
           <>
-            {data.projects.map(item => (
-              <Tr key={item?.id}>
-                {/* Could be abstracted into a map of ['name', 'description'] field array and dynamically replace the fields, but decided to keep it like this for legibility */}
-
+            {data.projects.map(project => (
+              <Tr key={project?.id}>
+                {/* Could be abstracted to a map of ['name', 'description'] field array and dynamically replace the fields, but decided to keep it like this for legibility */}
                 <Td>
-                  {inEditMode.status && inEditMode.rowKey === item.id ? (
+                  {inEditMode.status && inEditMode.rowKey === project.id ? (
                     <Input
                       maxW="9rem"
                       required
@@ -200,11 +284,11 @@ function ProjectsTable() {
                       }
                     />
                   ) : (
-                    item.name
+                    <Skeleton isLoaded={!loading}>{project.name}</Skeleton>
                   )}
                 </Td>
                 <Td>
-                  {inEditMode.status && inEditMode.rowKey === item.id ? (
+                  {inEditMode.status && inEditMode.rowKey === project.id ? (
                     <Input
                       required
                       value={projectFields.description}
@@ -216,67 +300,20 @@ function ProjectsTable() {
                       }
                     />
                   ) : (
-                    item.description
+                    <Skeleton isLoaded={!loading}>
+                      {project.description}
+                    </Skeleton>
                   )}
                 </Td>
                 <Td width="1px" textAlign="right" whiteSpace="nowrap" isNumeric>
-                  {item?.time || 0}
+                  {projectTime(project)}
                 </Td>
                 <Td width="1px" textAlign="right" whiteSpace="nowrap">
-                  {inEditMode.status && inEditMode.rowKey === item.id ? (
-                    <>
-                      <IconButton
-                        aria-label="Save Project"
-                        icon={<CheckIcon />}
-                        onClick={() =>
-                          onSave({
-                            id: item.id,
-                            newProjectName: projectFields.name,
-                            newProjectDescription: projectFields.description
-                          })
-                        }
-                      >
-                        Save
-                      </IconButton>
-
-                      <IconButton
-                        icon={<CloseIcon />}
-                        aria-label="Cancel editing project"
-                        onClick={onCancel}
-                      >
-                        Cancel
-                      </IconButton>
-                    </>
-                  ) : (
-                    <>
-                      <Link to={`/project/${item.id}`}>
-                        <IconButton
-                          aria-label="View project"
-                          icon={<ViewIcon />}
-                        />
-                      </Link>
-                      <IconButton
-                        aria-label="Edit Project"
-                        icon={<EditIcon />}
-                        onClick={() =>
-                          onEdit({
-                            id: item.id,
-                            currentName: item.name,
-                            currentDescription: item.description
-                          })
-                        }
-                      >
-                        Edit
-                      </IconButton>
-                      <IconButton
-                        aria-label="Delete Project"
-                        icon={<DeleteIcon />}
-                        onClick={() => onDelete(item.id)}
-                      >
-                        Edit
-                      </IconButton>
-                    </>
-                  )}
+                  <HStack spacing={2} justifyContent="flex-end">
+                    {inEditMode.status && inEditMode.rowKey === project.id
+                      ? editModeButtonsNode(project)
+                      : defaultButtonsNode(project)}
+                  </HStack>
                 </Td>
               </Tr>
             ))}

@@ -8,7 +8,7 @@ import {
 import typeDefs from './schema';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-  uri: 'http://localhost:8080/graphql',
+  uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache(),
   typeDefs
 });
