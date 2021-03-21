@@ -8,7 +8,7 @@
     "client"
   ],
   "scripts": {
-    "first-init": "npm install --save-dev concurrently && npm install --prefix client && npm install --prefix server && npm run generate --prefix client",
+    "first-init": "npm install --save-dev concurrently && npm install --prefix client && npm install --prefix server && npm run generate --prefix client && npm run dev",
     "server": "npm start --prefix server",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
