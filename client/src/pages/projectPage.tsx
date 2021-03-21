@@ -14,7 +14,7 @@ import {
   NumberInputStepper
 } from '@chakra-ui/react';
 import { Skeleton, SkeletonText } from '@chakra-ui/skeleton';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useParams } from 'react-router-dom';
 import TimeTable from '../components/table/timeTable';

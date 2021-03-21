@@ -9,11 +9,7 @@ import {
   Thead,
   Tr
 } from '@chakra-ui/react';
-import {
-  Project,
-  useDeleteTimeMutation,
-  useGetProjectsQuery
-} from '../../generated/graphql';
+import { Project, useDeleteTimeMutation } from '../../generated/graphql';
 import { GET_PROJECT } from '../../graphql/query';
 
 interface Props {
@@ -21,18 +17,9 @@ interface Props {
 }
 
 const TimeTable = ({ project }: Props) => {
-  const { data, loading, error } = useGetProjectsQuery();
-
   const [deleteTime] = useDeleteTimeMutation({
     update(cache, { data }) {
-      // Get existing projects from cache
-      const getProject: {
-        project: Project;
-      } | null = cache.readQuery({
-        query: GET_PROJECT
-      });
-
-      // Remove deleted project from list of projects
+      // Replace project in cache with updated time
       cache.writeQuery({
         query: GET_PROJECT,
         data: { project: data?.deleteTime }

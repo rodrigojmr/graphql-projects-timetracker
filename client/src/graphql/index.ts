@@ -1,8 +1,7 @@
 import {
   ApolloClient,
   InMemoryCache,
-  NormalizedCacheObject,
-  gql
+  NormalizedCacheObject
 } from '@apollo/client';
 
 import typeDefs from './schema';

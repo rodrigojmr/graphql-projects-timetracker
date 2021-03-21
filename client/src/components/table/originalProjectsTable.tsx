@@ -69,7 +69,7 @@ import { GET_PROJECTS } from '../../graphql/query';
 
 // const [state, dispatch] = useReducer(reducer, initialState);
 
-function ProjectsTable() {
+function OriginalProjectsTable() {
   const { data, loading, error } = useGetProjectsQuery();
 
   // Initial state to set edit mode
@@ -248,7 +248,7 @@ function ProjectsTable() {
           <Th>Title</Th>
           <Th>Description</Th>
           <Th width="1px" textAlign="right" whiteSpace="nowrap" isNumeric>
-            Hours
+            Total Hours
           </Th>
           <Th width="1px" textAlign="right" whiteSpace="nowrap">
             Actions
@@ -324,4 +324,4 @@ function ProjectsTable() {
   );
 }
 
-export default ProjectsTable;
+export default OriginalProjectsTable;

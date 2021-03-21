@@ -1,15 +1,10 @@
-import { Box, Container, Heading } from '@chakra-ui/layout';
-import { Flex } from '@chakra-ui/react';
 import React from 'react';
+import { Box, Container, Heading } from '@chakra-ui/layout';
 import ProjectForm from '../components/form/projectForm';
-import ProjectsTable from '../components/table/dynamicProjectsTable';
-import { useGetProjectsQuery } from '../generated/graphql';
+import OriginalProjectsTable from '../components/table/originalProjectsTable';
+import RefactoredProjectsTable from '../components/table/refactoredProjectsTable';
 
-interface HomeProps {}
-
-const Home: React.FC<HomeProps> = ({}) => {
-  const { data, error, loading } = useGetProjectsQuery();
-
+const Home: React.FC = () => {
   return (
     <Container
       maxW="6xl"
@@ -25,7 +20,9 @@ const Home: React.FC<HomeProps> = ({}) => {
         <ProjectForm />
       </Box>
       <Box p={3} rounded="md" border="1px solid" borderColor="gray.300">
-        <ProjectsTable />
+        {/* Made a separate "refactored" version, original version is commented out */}
+        {/* <OriginalProjectsTable /> */}
+        <RefactoredProjectsTable />
       </Box>
     </Container>
   );

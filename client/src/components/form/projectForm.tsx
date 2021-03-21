@@ -1,25 +1,22 @@
-import React from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { FormControl } from '@chakra-ui/form-control';
 import {
+  Button,
+  FormErrorMessage,
   FormLabel,
   Input,
-  FormErrorMessage,
-  Button,
   Textarea
 } from '@chakra-ui/react';
-import { FormControl } from '@chakra-ui/form-control';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useCreateProjectMutation } from '../../generated/graphql';
-import { ADD_PROJECT, GET_PROJECTS } from '../../graphql/query';
-
-interface ProjectFormProps {}
+import { GET_PROJECTS } from '../../graphql/query';
 
 interface ProjectInput {
   name: string;
   description: string;
 }
 
-const ProjectForm: React.FC<ProjectFormProps> = () => {
+const ProjectForm: React.FC = () => {
   const [createProject, { data }] = useCreateProjectMutation({
     update(cache, { data }) {
       // Query existing projects
